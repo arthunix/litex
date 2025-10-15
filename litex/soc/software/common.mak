@@ -48,6 +48,10 @@ DEPFLAGS += -MD -MP
 #
 INCLUDES = -I$(PICOLIBC_DIRECTORY)/newlib/libc/tinystdio \
            -I$(PICOLIBC_DIRECTORY)/newlib/libc/include \
+		   -I$(LIBWOLFSSL_DIRECTORY)/../../../../../libwolfssl \
+		   -I$(LIBWOLFSSL_DIRECTORY)/../../../../../libwolfssl/wolfssl \
+		   -I$(LIBWOLFSSL_DIRECTORY)/../../../../../libwolfssl/wolfssl/openssl \
+		   -I$(LIBWOLFSSL_DIRECTORY)/../../../../../libwolfssl/wolfssl/wolfcrypt \
            -I$(LIBBASE_DIRECTORY) \
            -I$(SOC_DIRECTORY)/software/include \
            -I$(SOC_DIRECTORY)/software \

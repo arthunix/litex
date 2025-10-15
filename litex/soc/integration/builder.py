@@ -58,6 +58,7 @@ soc_software_packages = [
     "libliteeth",
     "liblitesdcard",
     "liblitesata",
+    "libwolfssl"
 ]
 
 # Builder ------------------------------------------------------------------------------------------
@@ -188,7 +189,7 @@ class Builder:
         # Define SoC/Picolibc/Compiler-RT/Software/Include directories.
         picolibc_directory    = get_data_mod("software", "picolibc").data_location
         compiler_rt_directory = get_data_mod("software", "compiler_rt").data_location
-
+        
         define("SOC_DIRECTORY",         soc_directory)
         define("PICOLIBC_DIRECTORY",    picolibc_directory)
         define("PICOLIBC_FORMAT",       self.bios_format)
