@@ -58,6 +58,13 @@ SECTIONS
 		_ebss = .;
 		_end = .;
 	} > sram
+
+	.heap (NOLOAD) :
+	{
+		__heap_start = .;
+		. = ORIGIN(main_ram) + LENGTH(main_ram);
+		__heap_end = .;
+	} > main_ram
 }
 
 PROVIDE(_fstack = ORIGIN(sram) + LENGTH(sram));
