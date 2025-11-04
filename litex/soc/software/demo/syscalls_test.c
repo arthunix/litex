@@ -24,7 +24,7 @@ static void test_time_functions(void)
 
     /* gettimeofday */
     gettimeofday(&tv1, NULL);
-    delay_loop(5000000);
+    delay_loop(500000);
     gettimeofday(&tv2, NULL);
 
     long delta_us = (tv2.tv_sec - tv1.tv_sec) * 1000000L +
@@ -35,13 +35,13 @@ static void test_time_functions(void)
 
     /* times */
     c1 = times(&tms_buf);
-    delay_loop(5000000);
+    delay_loop(500000);
     c2 = times(&tms_buf);
     printf("times Δticks = %ld\n", (long)(c2 - c1));
 
     /* clock */
     c1 = clock();
-    delay_loop(5000000);
+    delay_loop(500000);
     c2 = clock();
     long delta_ticks = (long)(c2 - c1);
     printf("clock Δticks = %ld (per sec: %ld)\n", delta_ticks, (long)CLOCKS_PER_SEC);

@@ -58,16 +58,13 @@ SECTIONS
 		_ebss = .;
 		_end = .;
 	} > sram
-
-	.heap (NOLOAD) :
-	{
-		__heap_start = .;
-		. = ORIGIN(main_ram) + LENGTH(main_ram);
-		__heap_end = .;
-	} > main_ram
 }
 
 PROVIDE(_fstack = ORIGIN(sram) + LENGTH(sram));
+
+PROVIDE (__heap_start = _end);
+PROVIDE (__heap_end = _fstack - (DEFINED(_fstack_size) ? _fstack_size : 0x400000));
+PROVIDE (__heap_size = __heap_end - __heap_start);
 
 PROVIDE(_fdata_rom = LOADADDR(.data));
 PROVIDE(_edata_rom = LOADADDR(.data) + SIZEOF(.data));

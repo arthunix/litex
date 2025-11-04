@@ -3,7 +3,7 @@ BUILD_DIR?=../build/
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
 
-OBJECTS   = donut.o helloc.o crt0.o syscalls.o benchmark.o # syscalls_test.o main.o
+OBJECTS   = crt0.o syscalls.o benchmark.o # syscalls_test.o main.o donut.o helloc.o
 ifdef WITH_CXX
 	OBJECTS += hellocpp.o
 	CFLAGS += -DWITH_CXX
