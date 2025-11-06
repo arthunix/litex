@@ -61,9 +61,7 @@
     #include <config.h>
 #endif
 
-#if !defined(WOLFSSL_USER_SETTINGS) && !defined(WOLFSSL_NO_OPTIONS_H)
-    #include <wolfssl/options.h>
-#endif
+#include "user_settings.h"
 #include <wolfssl/wolfcrypt/settings.h> /* also picks up user_settings.h */
 
 /* Macro to disable benchmark */

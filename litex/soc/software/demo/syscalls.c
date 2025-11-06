@@ -5,7 +5,7 @@
 #include <errno.h>
 
 #ifndef CPU_CLOCK_HZ
-#define CPU_CLOCK_HZ 1000000UL
+#define CPU_CLOCK_HZ 50000000UL
 #endif
 
 #define read_csr(reg) ({ unsigned long __tmp; \
@@ -45,4 +45,11 @@ int gettimeofday(struct timeval *tv, void *tz)
     tv->tv_sec  = usec / 1000000ULL;
     tv->tv_usec = usec % 1000000ULL;
     return 0;
+}
+
+/* current_time(): CPU time since boot */
+double current_time(void)
+{
+    uint64_t cycles = read_csr(cycle);
+    return (double)cycles / (double)CPU_CLOCK_HZ;
 }
