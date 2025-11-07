@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335, USA
  */
 
-#include "user_settings.h"
+#include <wolfssl/user_settings.h>
 
 #include <wolfssl/wolfcrypt/settings.h>
 #include <wolfcrypt/benchmark/benchmark.h>

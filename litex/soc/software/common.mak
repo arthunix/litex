@@ -66,7 +66,7 @@ ifneq ($(CPUFAMILY), arm)
 COMMONFLAGS += -fexceptions
 endif
 CFLAGS = $(COMMONFLAGS) -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes
-CXXFLAGS = $(COMMONFLAGS) -std=c++11 -I$(SOC_DIRECTORY)/software/include/basec++ -fno-rtti -ffreestanding
+CXXFLAGS = $(COMMONFLAGS) -std=c++11 -I$(SOC_DIRECTORY)/software/include/basec++ -fno-rtti -ffreestanding -Wno-cpp
 LDFLAGS = -nostdlib -nodefaultlibs -Wl,--no-dynamic-linker -Wl,--build-id=none $(CFLAGS) -L$(BUILDINC_DIRECTORY)
 
 define compilexx

@@ -30,7 +30,7 @@
 
 #define WOLFSSL_VIS_FOR_TESTS
 
-#include "user_settings.h"
+#include <wolfssl/user_settings.h>
 #include <wolfssl/wolfcrypt/settings.h> /* also picks up user_settings.h */
 
 #ifdef WOLFSSL_DEBUG_TRACE_ERROR_CODES

@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335, USA
  */
 
-/* Example Settings for VexRiscv Litex */
+/* Example Settings for SiFive HiFive1 */
 
 #ifndef WOLFSSL_USER_SETTINGS_H
 #define WOLFSSL_USER_SETTINGS_H
@@ -29,10 +29,10 @@ extern "C" {
 #endif
 
 /* ------------------------------------------------------------------------- */
-/* VexRiscv Litex */
+/* SiFive HiFive */
 /* ------------------------------------------------------------------------- */
-#undef  WOLFSSL_VEXRISCV_RISC_V
-#define WOLFSSL_VEXRISCV_RISC_V
+#undef  WOLFSSL_SIFIVE_RISC_V
+#define WOLFSSL_SIFIVE_RISC_V
 
 
 /* ------------------------------------------------------------------------- */
@@ -50,9 +50,6 @@ extern "C" {
 
 #undef  WOLFSSL_USER_IO
 #define WOLFSSL_USER_IO
-
-#undef  WOLFSSL_NO_FLOAT_FMT
-#define WOLFSSL_NO_FLOAT_FMT
 
 
 /* ------------------------------------------------------------------------- */
@@ -72,6 +69,7 @@ extern "C" {
     /* Optimizations */
     //#define TFM_ARM
 #endif
+
 
 /* ------------------------------------------------------------------------- */
 /* Asymmetric */
@@ -442,6 +440,22 @@ extern "C" {
     #endif
 #endif
 
+
+/* ------------------------------------------------------------------------- */
+/* Port */
+/* ------------------------------------------------------------------------- */
+
+/* Override Current Time */
+#if defined(WOLFSSL_SIFIVE_RISC_V)
+    #define WOLFSSL_USER_CURRTIME /* for benchmarks, uses "custom_time()" function */
+    #undef WOLFSSL_GMTIME
+    //#define WOLFSSL_GMTIME
+    #define USER_TICKS
+#else
+    // extern unsigned long my_time(unsigned long* timer);
+    // #define XTIME my_time
+#endif
+
 /* ------------------------------------------------------------------------- */
 /* RNG */
 /* ------------------------------------------------------------------------- */
@@ -561,14 +575,17 @@ extern "C" {
 #undef  NO_ASN_TIME
 //#define NO_ASN_TIME
 
-//#undef  NO_CERTS
+#undef  NO_CERTS
 #define NO_CERTS
 
 #undef  NO_SIG_WRAPPER
 //#define NO_SIG_WRAPPER
 
-#undef WOLFSSL_GMTIME
-//#define WOLFSSL_GMTIME
+#undef  WOLFSSL_NO_SOCK
+#define WOLFSSL_NO_SOCK
+
+#undef WOLFSSL_NO_FLOAT_FMT
+#define WOLFSSL_NO_FLOAT_FMT
 
 #ifdef __cplusplus
 }

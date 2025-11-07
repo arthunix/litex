@@ -61,7 +61,7 @@
     #include <config.h>
 #endif
 
-#include "user_settings.h"
+#include <wolfssl/user_settings.h>
 #include <wolfssl/wolfcrypt/settings.h> /* also picks up user_settings.h */
 
 /* Macro to disable benchmark */
