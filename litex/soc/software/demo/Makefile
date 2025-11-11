@@ -3,15 +3,15 @@ BUILD_DIR?=../build/
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
 
-OBJECTS   = crt0.o syscalls.o wolfssl.o benchmark.o test.o # syscalls_test.o main.o donut.o helloc.o
+OBJECTS   = crt0.o main.o donut.o helloc.o syscalls.o benchmark.o test.o
 ifdef WITH_CXX
 	OBJECTS += hellocpp.o
 	CFLAGS += -DWITH_CXX
 endif
 
+CFLAGS += -Wno-missing-prototypes -Wno-cpp -DWOLFSSL_USER_SETTINGS
 
 all: demo.bin
-
 
 %.bin: %.elf
 	$(OBJCOPY) -O binary $< $@
@@ -38,7 +38,6 @@ endif
 -include $(OBJECTS:.o=.d)
 
 donut.o: CFLAGS   += -w
-wolfssl.o: CFLAGS   += -Wno-cpp -DWOLFSSL_USER_SETTINGS
 
 VPATH = $(BIOS_DIRECTORY):$(BIOS_DIRECTORY)/cmds:$(CPU_DIRECTORY)
 
