@@ -100,6 +100,7 @@ static void help(void)
 	puts("test_memory_syscalls - Test Dynamic Memory Allocation: malloc, calloc, realloc and free");
 	puts("wolfssl_test         - Run Wolfssl Tests");
 	puts("wolfssl_benchmark    - Run Wolfssl Benchmarks");
+	puts("simd_add_test        - Run SIMD Add Test");
 }
 
 /*-----------------------------------------------------------------------*/
@@ -331,7 +332,7 @@ int my_rng_gen_block(unsigned char* output, unsigned int sz)
     return 0;
 }
 
-int run_wolfssl_tests(void)
+int wolfssl_tests(void)
 {
 	int ret;
 	printf("\n--======== Wolfssl Tests ========--\n");
@@ -354,7 +355,7 @@ int run_wolfssl_tests(void)
     return 0;
 }
 
-int run_wolfssl_benchmark(void)
+int wolfssl_benchmark(void)
 {
 	int ret;
 	printf("\n--======== Wolfssl Benchmark ========--\n");
@@ -376,6 +377,12 @@ int run_wolfssl_benchmark(void)
     }
     return 0;
 }
+
+/*-----------------------------------------------------------------------*/
+/* Custom Instructions                                                   */
+/*-----------------------------------------------------------------------*/
+
+extern void simd_add_test(void);
 
 /*-----------------------------------------------------------------------*/
 /* Console service / Main                                                */
@@ -410,9 +417,11 @@ static void console_service(void)
 	else if(strcmp(token, "test_memory_syscalls") == 0)
 		test_memory_syscalls();
 	else if(strcmp(token, "wolfssl_test") == 0)
-		run_wolfssl_tests();
+		wolfssl_tests();
 	else if(strcmp(token, "wolfssl_benchmark") == 0)
-		run_wolfssl_benchmark();
+		wolfssl_benchmark();
+	else if(strcmp(token, "simd_add_test") == 0)
+		simd_add_test();
 	prompt();
 }
 
