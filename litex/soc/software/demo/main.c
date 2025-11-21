@@ -75,7 +75,7 @@ static char *get_token(char **str)
 
 static void prompt(void)
 {
-	printf("\e[92;1mlitex-demo-app\e[0m> ");
+	printf("\e[92;1mlitex-software-tests\e[0m> ");
 }
 
 /*-----------------------------------------------------------------------*/
@@ -84,7 +84,7 @@ static void prompt(void)
 
 static void help(void)
 {
-	puts("\nLiteX minimal demo app built "__DATE__" "__TIME__"\n");
+	puts("\nLiteX software crypto app built "__DATE__" "__TIME__"\n");
 	puts("Available commands:");
 	puts("help                 - Show this command");
 	puts("reboot               - Reboot CPU");
@@ -96,11 +96,12 @@ static void help(void)
 #ifdef WITH_CXX
 	puts("hellocpp             - Hello C++");
 #endif
-	puts("test_time_syscalls   - Run Test for Time Syscalls, times, gettimeofday, current_time");
-	puts("test_memory_syscalls - Test Dynamic Memory Allocation: malloc, calloc, realloc and free");
+	puts("test_time_syscalls   - Run Test for Time Syscalls (times, gettimeofday, current_time)");
+	puts("test_memory_syscalls - Run Test Dynamic Memory Allocations (malloc, calloc, realloc and free)");
 	puts("wolfssl_test         - Run Wolfssl Tests");
 	puts("wolfssl_benchmark    - Run Wolfssl Benchmarks");
 	puts("simd_add_test        - Run SIMD Add Test");
+	puts("zbkb_test_benchmark  - Run Zbkb Instructions Test & Benchmark");
 }
 
 /*-----------------------------------------------------------------------*/
@@ -180,7 +181,7 @@ static void delay_loop(volatile unsigned long loops)
         ;
 }
 
-#define DELAY_LOOP_IT 100000000
+#define DELAY_LOOP_IT 1000
 
 #ifndef CPU_CLOCK_HZ
 #define CPU_CLOCK_HZ 50000000UL
@@ -192,8 +193,9 @@ static void test_time_syscalls(void)
     struct tms tms_buf;
     clock_t c1, c2;
 
-	printf("\n--======== Time Syscalls Test! =========--\n");
-    printf("\nRunning Time Syscalls Test with freq.: %ld and: %ld of iterations.\n", (long)CPU_CLOCK_HZ, (long)DELAY_LOOP_IT);
+	printf("--------------------------------------------");
+    printf("\nTime Syscalls VexRiscv Test\n");
+    printf("\nRunning with freq.: %ld and: %ld of iterations.\n", (long)CPU_CLOCK_HZ, (long)DELAY_LOOP_IT);
 
     gettimeofday(&tv1, NULL);
     delay_loop(DELAY_LOOP_IT);
@@ -202,19 +204,19 @@ static void test_time_syscalls(void)
     long delta_us = (tv2.tv_sec - tv1.tv_sec) * 1000000L + (tv2.tv_usec - tv1.tv_usec);
     long delta_s  = delta_us / 1000000L;
 
-    printf("gettimeofday Δ = %ld s\n", delta_s);
+    printf("gettimeofday in seconds = %ld s\n", delta_s);
 
     c1 = times(&tms_buf);
     delay_loop(DELAY_LOOP_IT);
     c2 = times(&tms_buf);
 
-    printf("times Δ cpu ticks = %ld\n", (long)(c2 - c1));
+    printf("times in cpu ticks = %ld\n", (long)(c2 - c1));
 
     c1 = clock();
     delay_loop(DELAY_LOOP_IT);
     c2 = clock();
 
-    printf("clock Δ cpu ticks = %ld (per sec: %ld)\n", (long)(c2 - c1), (long)CLOCKS_PER_SEC);
+    printf("clock in cpu ticks = %ld (per sec: %ld)\n", (long)(c2 - c1), (long)CLOCKS_PER_SEC);
 
     printf("Time functions OK!\n");
 }
@@ -227,7 +229,9 @@ static void test_memory_syscalls(void)
 {
 	size_t buffer_size = 512;  /* 1 MB */
 
-	printf("\n--======== Dynamic Memory Test! ========--\n");
+	printf("--------------------------------------------");
+    printf("\nDynamic Memory VexRiscv Test\n");
+
     printf("Allocating buffer of %lu bytes...\n", (unsigned long)buffer_size);
 
     void *ptr = malloc(buffer_size);
@@ -285,6 +289,7 @@ static void test_memory_syscalls(void)
     /* Free everything */
     free(new_ptr);
     printf("free OK — all allocations released.\n");
+	printf("--------------------------------------------");
 }
 
 /*-----------------------------------------------------------------------*/
@@ -335,7 +340,8 @@ int my_rng_gen_block(unsigned char* output, unsigned int sz)
 int wolfssl_tests(void)
 {
 	int ret;
-	printf("\n--======== Wolfssl Tests ========--\n");
+	printf("--------------------------------------------");
+    printf("\nWolfSSL Crypto VexRiscv: Verify\n");
 
 	printf("Running Wolfssl Init...\n");
     if ((ret = wolfCrypt_Init()) != 0) {
@@ -352,13 +358,15 @@ int wolfssl_tests(void)
         printf("wolfCrypt_Cleanup failed %d\n", ret);
         return -1;
     }
+	printf("--------------------------------------------");
     return 0;
 }
 
 int wolfssl_benchmark(void)
 {
 	int ret;
-	printf("\n--======== Wolfssl Benchmark ========--\n");
+	printf("--------------------------------------------");
+    printf("\nWolfSSL Crypto VexRiscv: Benchmark\n");
 
 	printf("Running Wolfssl Init...\n");
     if ((ret = wolfCrypt_Init()) != 0) {
@@ -375,6 +383,7 @@ int wolfssl_benchmark(void)
         printf("wolfCrypt_Cleanup failed %d\n", ret);
         return -1;
     }
+	printf("--------------------------------------------");
     return 0;
 }
 
@@ -383,6 +392,12 @@ int wolfssl_benchmark(void)
 /*-----------------------------------------------------------------------*/
 
 extern void simd_add_test(void);
+
+/*-----------------------------------------------------------------------*/
+/* Zbkb Instructions                                                     */
+/*-----------------------------------------------------------------------*/
+
+extern void zbkb_test_benchmark(void);
 
 /*-----------------------------------------------------------------------*/
 /* Console service / Main                                                */
@@ -422,6 +437,8 @@ static void console_service(void)
 		wolfssl_benchmark();
 	else if(strcmp(token, "simd_add_test") == 0)
 		simd_add_test();
+	else if(strcmp(token, "zbkb_test_benchmark") == 0)
+		zbkb_test_benchmark();
 	prompt();
 }
 
